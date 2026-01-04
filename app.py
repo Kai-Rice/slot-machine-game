@@ -1,5 +1,5 @@
-# version 1.0
-# 1-1-26
+# version 1.1
+# 1-3-26
 
 import random
 
@@ -37,11 +37,14 @@ def slot_spinner():
 
 
 def slot_calculator(chosen_slots):
-    win_checker = True
-    # iterates to determine if slot icons are the same
-    for i in range(len(chosen_slots)):
-        if chosen_slots[i] != chosen_slots[i-1]:
-            win_checker = False
+    win_checker = False
+    slot_1 = chosen_slots[0]
+    slot_2 = chosen_slots[1]
+    slot_3 = chosen_slots[2]
+
+    # checks if all slots are the same.
+    if slot_1 == slot_2 and slot_2 == slot_3:
+        win_checker = True # if so, awards money.
 
     return win_checker
 
@@ -56,7 +59,7 @@ def prize_money(win_checker):
 
 
 def error_handling():
-    print("")
+    print("unknown input")
 
 
 def game_logic():
@@ -70,6 +73,7 @@ def game_logic():
             if wallet <= 0:
                 print("Sorry! You are out of money.")
                 break
+
             else:
                 wallet -= 50
                 slots = slot_spinner()
@@ -77,11 +81,14 @@ def game_logic():
                 prize = prize_money(win_checker)
                 wallet += prize
                 menu_screen(slots, prize)
+
         elif user_choice == "quit":
+            print("Thanks for playing!")
+            print(f"You walked away with {wallet}$")
             break
+
         else:
-            # error_message()
-            print("unknown")
+            error_handling()
 
 
 game_logic()
