@@ -1,9 +1,8 @@
-# version 1.2
-# 1-4-26
+# version 1.3
+# 1-5-26
 
 import random
 
-wallet = 1000
 
 def title_screen():
     print("""
@@ -14,7 +13,7 @@ def title_screen():
 +------------------------+ """)
 
 
-def menu_screen(chosen_slots, prize):
+def menu_screen(chosen_slots, prize, wallet):
     print(f"""
 +------------------------+   
 | wallet {wallet}$            |
@@ -26,7 +25,7 @@ def menu_screen(chosen_slots, prize):
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
 
-# 🦄
+
 def slot_spinner():
     possible_slot_icons = ["🍎", "🍊", "🍇", "🥝", "🍋"]
     chosen_slots = []
@@ -66,23 +65,23 @@ def error_handling():
 
 def game_logic():
     title_screen()
-    global wallet
-
+    wallet = 1000
+    bid_amount = 50
     while True:
         user_choice = input("> ")
 
         if user_choice == "":
-            if wallet <= 0:
-                print("Sorry! You are out of money.")
+            if wallet < bid_amount:
+                print("Sorry! You don't have enough money.")
                 break
 
             else:
-                wallet -= 50
+                wallet -= bid_amount
                 slots = slot_spinner()
                 win_checker = slot_calculator(slots)
                 prize = prize_money(win_checker)
                 wallet += prize
-                menu_screen(slots, prize)
+                menu_screen(slots, prize, wallet)
 
         elif user_choice == "quit":
             print("Thanks for playing!")
