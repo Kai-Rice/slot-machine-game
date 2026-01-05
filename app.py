@@ -1,4 +1,4 @@
-# version 1.3
+# version 1.4
 # 1-5-26
 
 import random
@@ -10,7 +10,7 @@ def title_screen():
 | Slot Machine Game      |
 | Press 'ENTER' to Spin! |
 | Type 'quit' to quit.   |
-+------------------------+ """)
++------------------------+""")
 
 
 def menu_screen(chosen_slots, prize, wallet):
@@ -59,8 +59,8 @@ def prize_money(win_checker):
     return prize_money
 
 
-def error_handling():
-    print("unknown input")
+def error_handling(user_choice):
+    print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
 
 
 def game_logic():
@@ -68,28 +68,30 @@ def game_logic():
     wallet = 1000
     bid_amount = 50
     while True:
-        user_choice = input("> ")
+        user_choice = input("> ").lower()
 
         if user_choice == "":
             if wallet < bid_amount:
                 print("Sorry! You don't have enough money.")
                 break
 
-            else:
-                wallet -= bid_amount
-                slots = slot_spinner()
-                win_checker = slot_calculator(slots)
-                prize = prize_money(win_checker)
-                wallet += prize
-                menu_screen(slots, prize, wallet)
+            wallet -= bid_amount
+            slots = slot_spinner()
+            win_checker = slot_calculator(slots)
+            prize = prize_money(win_checker)
+            wallet += prize
+            menu_screen(slots, prize, wallet)
 
         elif user_choice == "quit":
             print("Thanks for playing!")
             print(f"You walked away with {wallet}$")
             break
 
+        elif user_choice == "help":
+            print("Press 'ENTER' to Spin! Type 'quit' to Quit.")
+
         else:
-            error_handling()
+            error_handling(user_choice)
 
 
 game_logic()
