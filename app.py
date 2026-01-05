@@ -1,8 +1,4 @@
-# version 1.4
-# 1-5-26
-
 import random
-
 
 def title_screen():
     print("""
@@ -45,16 +41,24 @@ def slot_calculator(chosen_slots):
 
     # checks if all slots are the same.
     if slot_1 == slot_2 and slot_2 == slot_3:
-        win_checker = True # if so, awards money.
+        win_checker = slot_1 # if so, awards money.
 
     return win_checker
 
 
 def prize_money(win_checker):
-    # awards player money if win_checker is True
-    prize_money = 0
-    if win_checker:
-        prize_money += 500
+    if win_checker == "🍎":
+     prize_money = 100
+    elif win_checker == "🍊":
+        prize_money = 300
+    elif win_checker == "🍇":
+        prize_money = 500
+    elif win_checker == "🥝":
+        prize_money = 800
+    elif win_checker == "🍋":
+        prize_money = 1000
+    else:
+        prize_money = 0
 
     return prize_money
 
@@ -64,18 +68,20 @@ def error_handling(user_choice):
 
 
 def game_logic():
-    title_screen()
+
     wallet = 1000
-    bid_amount = 50
+    bet = 50
+
+    title_screen()
     while True:
         user_choice = input("> ").lower()
 
         if user_choice == "":
-            if wallet < bid_amount:
+            if wallet < bet:
                 print("Sorry! You don't have enough money.")
                 break
 
-            wallet -= bid_amount
+            wallet -= bet
             slots = slot_spinner()
             win_checker = slot_calculator(slots)
             prize = prize_money(win_checker)
