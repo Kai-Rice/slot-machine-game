@@ -1,5 +1,5 @@
-# version 1.1
-# 1-3-26
+# version 1.2
+# 1-4-26
 
 import random
 
@@ -7,24 +7,26 @@ wallet = 1000
 
 def title_screen():
     print("""
-Slot Machine Game
-Press 'ENTER' to Spin!
-Type 'quit' to quit.
-            """)
++------------------------+    
+| Slot Machine Game      |
+| Press 'ENTER' to Spin! |
+| Type 'quit' to quit.   |
++------------------------+ """)
 
 
 def menu_screen(chosen_slots, prize):
     print(f"""
-wallet {wallet}$
-{chosen_slots}
-
-Press 'ENTER' to Spin!
-    """)
++------------------------+   
+| wallet {wallet}$            |
+| {chosen_slots}     |
+|                        |
+| Press 'ENTER' to Spin! |
++------------------------+""")
     # checks if prize was won. if so it prints to screen.
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
 
-
+# 🦄
 def slot_spinner():
     possible_slot_icons = ["🍎", "🍊", "🍇", "🥝", "🍋"]
     chosen_slots = []
