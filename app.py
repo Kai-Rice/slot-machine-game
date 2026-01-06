@@ -1,5 +1,15 @@
 import random
 
+slots_and_values = {
+    "🍎": 100,
+    "🍊": 300,
+    "🍇": 500,
+    "🥝": 800,
+    "🍋": 1000,
+}
+initial_wallet = 1000
+bet_amount = 50
+
 def title_screen():
     print("""
 +------------------------+    
@@ -22,8 +32,8 @@ def menu_screen(chosen_slots, prize, wallet):
         print(f"Congratulations! you won {prize}$")
 
 
-def slot_spinner():
-    possible_slot_icons = ["🍎", "🍊", "🍇", "🥝", "🍋"]
+def slot_spinner(slots_and_values):
+    possible_slot_icons = list(slots_and_values.keys())
     chosen_slots = []
     # randomly chooses 3 possible slot icons and appends them to chosen_slots
     for icon in range(3):
@@ -47,16 +57,8 @@ def slot_calculator(chosen_slots):
 
 
 def prize_money(win_checker):
-    if win_checker == "🍎":
-     prize_money = 100
-    elif win_checker == "🍊":
-        prize_money = 300
-    elif win_checker == "🍇":
-        prize_money = 500
-    elif win_checker == "🥝":
-        prize_money = 800
-    elif win_checker == "🍋":
-        prize_money = 1000
+    if win_checker:
+        prize_money = slots_and_values[win_checker]
     else:
         prize_money = 0
 
@@ -67,10 +69,10 @@ def error_handling(user_choice):
     print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
 
 
-def game_logic():
+def game_logic(slots_and_values, initial_wallet, bet_amount):
 
-    wallet = 1000
-    bet = 50
+    wallet = initial_wallet
+    bet = bet_amount
 
     title_screen()
     while True:
@@ -82,7 +84,7 @@ def game_logic():
                 break
 
             wallet -= bet
-            slots = slot_spinner()
+            slots = slot_spinner(slots_and_values)
             win_checker = slot_calculator(slots)
             prize = prize_money(win_checker)
             wallet += prize
@@ -100,4 +102,4 @@ def game_logic():
             error_handling(user_choice)
 
 
-game_logic()
+game_logic(slots_and_values, initial_wallet, bet_amount)
