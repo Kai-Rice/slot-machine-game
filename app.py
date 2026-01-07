@@ -35,12 +35,12 @@ def title_screen():
 def menu_screen(chosen_slots, prize, wallet):
 # prints the menu screen with current wallet and chosen slots
     print(f"""
-+------------------------+   
-| wallet {wallet}$            |
-| {chosen_slots}     |
-|                        |
-| Press 'ENTER' to Spin! |
-+------------------------+""")
+╔═══════ SLOTS ════════╗
+⟩⟩ {chosen_slots} ⟨⟨
+╚══════════════════════╝
+
+Wallet {wallet}$
+Press 'ENTER' to Spin!""")
     # checks if prize was won. if so it prints to screen.
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
@@ -151,35 +151,3 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
 
 game_logic(slots_and_values, initial_wallet, bet_amount)
-
-
-"""
---- SAMPLE OUTPUT ---
-
-wallet 1000$
-Bet 50$
-
-╔═══════ SLOTS ════════╗
-
-⟩⟩  | 🥝 | 🍎 | 🍇 |  ⟨⟨
-
-╚══════════════════════╝
-
->
-"""
-
-"""
---- SAMPLE OUTPUT ---
-╔═══════ SLOTS ════════╗
-
-⟩⟩  | 🥝 | 🍎 | 🍇 |  ⟨⟨
-
-╠══════════════════════╣
-║                      ║
-║ Wallet 1000$         ║
-║ You won 0$           ║
-║ BET 50$              ║
-╚══════════════════════╝
->
-"""
-
