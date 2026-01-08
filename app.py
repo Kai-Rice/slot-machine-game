@@ -76,11 +76,21 @@ def slot_calculator(chosen_slots):
     return False
 
 
-def prize_money(win_checker):
+def prize_money(win_checker, number_of_reels):
     # checks if there was a win and returns the prize money
+    multiplier = 1 * number_of_reels
     if win_checker:
+        # calculate multiplier based on number of reels
+        if multiplier > 3: # for 4 or more reels
+            multiplier = 2 * number_of_reels # for 4 or more reels, multiplier is 2x
+        elif multiplier < 3: # for 2 reels
+            multiplier = 1 * number_of_reels # for 2 reels, multiplier is 1x
+
+        if multiplier > 3 or multiplier < 2:
+            # only print multiplier for 2 or 4+ reels
+            print(f"Reel Multiplier: x{multiplier}")
         # if there was a win, get the prize money from slots_and_values
-        prize_money = slots_and_values[win_checker]
+        prize_money = slots_and_values[win_checker] * multiplier
     else:
         # if there was no win, return 0
         prize_money = 0
@@ -100,10 +110,7 @@ def stats(wallet, spins, money_earned, money_spent):
 | Money Spent: {money_spent}$    |
 +------------------------+""")
     
-    
-    
-    
-    
+      
 def error_handling(user_choice):
     # prints an error message for unknown inputs
     print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
@@ -141,7 +148,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             # check for wins
             win_checker = slot_calculator(slots)
             # calculate prize money
-            prize = prize_money(win_checker)
+            prize = prize_money(win_checker, number_of_reels)
             # add prize money to wallet
             money_earned += prize
             wallet += prize
