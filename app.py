@@ -88,6 +88,22 @@ def prize_money(win_checker):
     return prize_money
 
 
+def stats(wallet, spins, money_earned, money_spent):
+    # prints the player's stats
+    print(f"""
++------------------------+
+| Player Stats          |
++------------------------+
+| Wallet: {wallet}$          |
+| Spins: {spins}            |
+| Money Earned: {money_earned}$   |
+| Money Spent: {money_spent}$    |
++------------------------+""")
+    
+    
+    
+    
+    
 def error_handling(user_choice):
     # prints an error message for unknown inputs
     print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
@@ -99,6 +115,8 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
     bet = bet_amount
     number_of_reels = initial_number_of_reels
     spins = 0
+    money_earned = 0
+    money_spent = 0
 
     title_screen() # prints title screen (once)
     while True:
@@ -110,13 +128,14 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             # check if user has enough money to place bet
             if wallet < bet:
                 print("Sorry! You don't have enough money.")
-                print(f"You walk away with {wallet}$ after {spins} spins.")
+                stats(wallet, spins, money_earned, money_spent)
                 break
 
             # increment spin counter
             spins += 1
             # deduct bet from wallet
             wallet -= bet
+            money_spent += bet
             # spin the slots
             slots = slot_spinner(slots_and_values, number_of_reels)
             # check for wins
@@ -124,6 +143,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             # calculate prize money
             prize = prize_money(win_checker)
             # add prize money to wallet
+            money_earned += prize
             wallet += prize
             # display menu screen
             menu_screen(slots, prize, wallet, number_of_reels)
@@ -148,7 +168,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
         elif user_choice == "quit": # user typed 'quit' to exit the game
             print("Thanks for playing!")
-            print(f"You walked away with {wallet}$ after {spins} spins.")
+            stats(wallet, spins, money_earned, money_spent)
             break # exit the game loop
 
         elif user_choice == "help": # user typed 'help' to get a list of commands
