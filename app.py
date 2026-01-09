@@ -6,11 +6,6 @@ slots_and_values = {
     "🍇": 200,
     "🥝": 250,
     "🍋": 300,
-    "🍒": 400,
-    "💎": 500,
-    "🌈": 800,
-    "🦄": 1000,
-    "👑": 3000,  
 }
 initial_number_of_reels = 3
 initial_wallet = 1000
@@ -180,6 +175,9 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
         elif user_choice == "help": # user typed 'help' to get a list of commands
             print("Press 'ENTER' to Spin! Type 'reels' to set number of reels. Type 'quit' to Quit.")
+
+        elif user_choice == "stats": # user typed 'stats' to view their stats
+            stats(wallet, spins, money_earned, money_spent)
 
         else: # unknown input
             error_handling(user_choice)
