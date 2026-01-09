@@ -179,6 +179,14 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
         elif user_choice == "stats": # user typed 'stats' to view their stats
             stats(wallet, spins, money_earned, money_spent)
 
+        elif user_choice == "restart": # user typed 'restart' to restart the game
+            wallet = initial_wallet
+            spins = 0
+            money_earned = 0
+            money_spent = 0
+            number_of_reels = initial_number_of_reels
+            print("Game restarted!")
+
         else: # unknown input
             error_handling(user_choice)
 
