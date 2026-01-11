@@ -22,7 +22,7 @@ def title_screen():
 +------------------------+""")
 
 
-def menu_screen(chosen_slots, prize, wallet, number_of_reels):
+def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
 
     spaceing = "═" * number_of_reels * 2
 
@@ -34,7 +34,8 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels):
     footer_middle = "════════"
     footer_right = spaceing + "═╝"
 # prints the menu screen with current wallet and chosen slots
-    print(f"""{header_left}{header_middle}{header_right}
+    print(f"""Spins: {spins}
+{header_left}{header_middle}{header_right}
 ⟩⟩ {chosen_slots} ⟨⟨
 {footer_left}{footer_middle}{footer_right} 
 Wallet {wallet}$
@@ -43,6 +44,7 @@ Press 'ENTER' to Spin
     # checks if prize was won. if so it prints to screen.
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
+        print("")
 
 
 def slot_spinner(slots_and_values, number_of_reels):
@@ -97,7 +99,7 @@ def stats(wallet, spins, money_earned, money_spent):
     # prints the player's stats
     print(f"""
 +------------------------+
-| Player Stats          |
+| Player Stats           |
 +------------------------+
 | Wallet: {wallet}$          |
 | Spins: {spins}            |
@@ -148,7 +150,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             money_earned += prize
             wallet += prize
             # display menu screen
-            menu_screen(slots, prize, wallet, number_of_reels)
+            menu_screen(slots, prize, wallet, number_of_reels, spins)
 
 
         elif user_choice == "reels": # user typed 'reels' to set number of reels
@@ -166,15 +168,6 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             else: # if input is valid, set number of reels
                 number_of_reels = user_choice
                 print(f"Number of reels set to {number_of_reels}")
-
-
-        elif user_choice == "quit": # user typed 'quit' to exit the game
-            print("Thanks for playing!")
-            stats(wallet, spins, money_earned, money_spent)
-            break # exit the game loop
-
-        elif user_choice == "help": # user typed 'help' to get a list of commands
-            print("Press 'ENTER' to Spin! Type 'reels' to set number of reels. Type 'quit' to Quit.")
 
         elif user_choice == "stats": # user typed 'stats' to view their stats
             stats(wallet, spins, money_earned, money_spent)
@@ -201,6 +194,25 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             else:
                 wallet += user_choice
                 print(f"Added {user_choice}$ to wallet. New wallet balance: {wallet}$")
+
+        elif user_choice == "wallet": # user typed 'wallet' to view their wallet balance
+            print(f"Wallet balance: {wallet}$")
+
+        elif user_choice == "quit": # user typed 'quit' to exit the game
+            print("Thanks for playing!")
+            stats(wallet, spins, money_earned, money_spent)
+            break # exit the game loop
+
+        elif user_choice == "help": # user typed 'help' to get a list of commands
+            print("""Commands: 
+reels - Set number of reels
+stats - View player stats
+restart - Restart the game
+add - Add money to wallet
+wallet - View wallet balance
+quit - Quit the game         
+help - View this help message
+""")
 
         else: # unknown input
             error_handling(user_choice)
