@@ -187,6 +187,21 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             number_of_reels = initial_number_of_reels
             print("Game restarted!")
 
+        elif user_choice == "add": # user typed 'add' to add money to their wallet
+            try:
+                # get user input for amount to add
+                user_choice = int(input("Amount to add: "))
+            except ValueError:
+                error_handling(user_choice)
+                continue
+
+            # validate user input for amount to add
+            if user_choice <= 0:
+                print("Amount must be greater than 0")
+            else:
+                wallet += user_choice
+                print(f"Added {user_choice}$ to wallet. New wallet balance: {wallet}$")
+
         else: # unknown input
             error_handling(user_choice)
 
