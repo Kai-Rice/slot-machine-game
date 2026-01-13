@@ -19,11 +19,12 @@ bet_amount = 50
 def title_screen():
 # prints the title screen
     print("""
-+------------------------+    
-| Slot Machine Game      |
-| Press 'ENTER' to Spin! |
-| Type 'quit' to quit.   |
-+------------------------+""")
++---------------------------+    
+| Slot Machine Game         |
+| Press 'ENTER' to Spin!    |
+| Type 'quit' to quit.      |
+| Type 'help' for commands. |          
++---------------------------+""")
 
 
 def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
@@ -92,45 +93,6 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
     # print prize money if won
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
-
-
-#     top_left_corner = "╔"
-#     top_left_segment = "══"
-#     top_right_segment = "══"
-#     top_right_corner = "╗"
-
-#     bottom_left_corner = "╚"
-#     bottom_left_segment = "══"
-    
-#     bottom_right_segment = "══"
-#     bottom_right_corner = "╝"
-
-
-#     if len(chosen_slots) > 1:
-#         title = " SLOTS "
-#         bottom_middle_segment = "═══════"
-
-#         multipler = len(chosen_slots)
-#         width_multiplier = "═" * multipler
-        
-#        # width_multiplier_ex = "═"
-
-
-#         print(f"""
-# {top_left_corner}{top_left_segment}{width_multiplier}{title}{top_right_segment}{width_multiplier}{top_right_corner}
-# ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
-# {bottom_left_corner}{bottom_left_segment}{width_multiplier}{bottom_middle_segment}{width_multiplier}{bottom_right_segment}{bottom_right_corner}
-# """)
-
-
-#     else:
-#         title = " SLOT "
-#         bottom_middle_segment = "══════"
-#         print(f"""
-# {top_left_corner}{top_left_segment}{title}{top_right_segment}{top_right_corner}
-# ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
-# {bottom_left_corner}{bottom_left_segment}{bottom_middle_segment}{bottom_right_segment}{bottom_right_corner}
-# """)
     
 
 def slot_spinner(slots_and_values, number_of_reels):
@@ -189,11 +151,11 @@ def stats(wallet, spins, money_earned, money_spent):
 +------------------------+
 | Player Stats           |
 +------------------------+
-| Wallet: {wallet}$             |
-| Spins: {spins}            |
-| Money Earned: {money_earned}$   |
-| Money Spent: {money_spent}$     |
-+------------------------+""")
+→ Wallet: {wallet}$
+→ Spins: {spins}
+→ Money Earned: {money_earned}$
+→ Money Spent: {money_spent}$
+""")
     
       
 def error_handling(user_choice):
@@ -245,18 +207,13 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             try:
                 # get user input for number of reels
                 user_choice = int(input("Set number of reels: "))
-                number_of_reels = user_choice
+                if user_choice < 1 or user_choice > len(slots_and_values):
+                    print(f"Invalid number of reels. Please choose between 1 and {len(slots_and_values)}.")
+                else:
+                    number_of_reels = user_choice
+                    print(f"Number of reels set to {number_of_reels}")
             except ValueError:
                 error_handling(number_of_reels)
-
-            # # validate user input for number of reels
-            # if user_choice <= 2: # minimum number of reels is 2
-            #     print(f"Minimum number of reels is 2")
-            # elif user_choice > len(slots_and_values): # maximum number of reels is the number of slot icons
-            #     print(f"Maximum number of reels is {len(slots_and_values)}")
-            # else: # if input is valid, set number of reels
-            #     number_of_reels = user_choice
-            #     print(f"Number of reels set to {number_of_reels}")
 
         elif user_choice == "stats": # user typed 'stats' to view their stats
             stats(wallet, spins, money_earned, money_spent)
