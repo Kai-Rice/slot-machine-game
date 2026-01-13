@@ -6,6 +6,10 @@ slots_and_values = {
     "🍇": 200,
     "🥝": 250,
     "🍋": 300,
+    "🍓": 400,
+    "🦄": 500,
+    "⭐": 750,
+    "💎": 1000
 }
 initial_number_of_reels = 3
 initial_wallet = 1000
@@ -24,28 +28,110 @@ def title_screen():
 
 def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
 
-    spaceing = "═" * number_of_reels * 2
+    print(f"Wallet: {wallet}$""") # always prints wallet amount
 
-    header_left = "╔══" + spaceing
-    header_middle = " SLOTS "
-    header_right = spaceing + "═╗"
-
-    footer_left = "╚═" + spaceing
-    footer_middle = "════════"
-    footer_right = spaceing + "═╝"
-# prints the menu screen with current wallet and chosen slots
-    print(f"""Spins: {spins}
-{header_left}{header_middle}{header_right}
-⟩⟩ {chosen_slots} ⟨⟨
-{footer_left}{footer_middle}{footer_right} 
-Wallet {wallet}$
-Press 'ENTER' to Spin
+    # prints the menu screen with slots based on number of reels
+    if len(chosen_slots) == 1:
+        print(f"""╔══ SLOT ══╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚══════════╝
 """)
-    # checks if prize was won. if so it prints to screen.
+
+    elif len(chosen_slots) == 2:
+        print(f"""╔════ SLOTS ════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚═══════════════╝
+""")
+
+    elif len(chosen_slots) == 3:
+        print(f"""╔══════ SLOTS ═══════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚════════════════════╝
+""")
+
+    elif len(chosen_slots) == 4:
+        print(f"""╔═════════ SLOTS ═════════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚═════════════════════════╝
+""")
+
+    elif len(chosen_slots) == 5:
+        print(f"""╔═══════════ SLOTS ════════════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚══════════════════════════════╝
+""")
+
+    elif len(chosen_slots) == 6:
+        print(f"""╔═════════════ SLOTS ═══════════════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚═══════════════════════════════════╝
+
+""")
+
+    elif len(chosen_slots) == 7:
+        print(f"""╔═══════════════ SLOTS ══════════════════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚════════════════════════════════════════╝
+""")
+
+    elif len(chosen_slots) == 8:
+        print(f"""╔══════════════════ SLOTS ════════════════════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚═════════════════════════════════════════════╝
+""")
+
+    elif len(chosen_slots) >= 9:
+        print(f"""╔════════════════════ SLOTS ═══════════════════════╗
+⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+╚══════════════════════════════════════════════════╝
+""")
+
+    else:
+        print("Error: Invalid number of reels.")
+
+    # print prize money if won
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
-        print("")
 
+
+#     top_left_corner = "╔"
+#     top_left_segment = "══"
+#     top_right_segment = "══"
+#     top_right_corner = "╗"
+
+#     bottom_left_corner = "╚"
+#     bottom_left_segment = "══"
+    
+#     bottom_right_segment = "══"
+#     bottom_right_corner = "╝"
+
+
+#     if len(chosen_slots) > 1:
+#         title = " SLOTS "
+#         bottom_middle_segment = "═══════"
+
+#         multipler = len(chosen_slots)
+#         width_multiplier = "═" * multipler
+        
+#        # width_multiplier_ex = "═"
+
+
+#         print(f"""
+# {top_left_corner}{top_left_segment}{width_multiplier}{title}{top_right_segment}{width_multiplier}{top_right_corner}
+# ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+# {bottom_left_corner}{bottom_left_segment}{width_multiplier}{bottom_middle_segment}{width_multiplier}{bottom_right_segment}{bottom_right_corner}
+# """)
+
+
+#     else:
+#         title = " SLOT "
+#         bottom_middle_segment = "══════"
+#         print(f"""
+# {top_left_corner}{top_left_segment}{title}{top_right_segment}{top_right_corner}
+# ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
+# {bottom_left_corner}{bottom_left_segment}{bottom_middle_segment}{bottom_right_segment}{bottom_right_corner}
+# """)
+    
 
 def slot_spinner(slots_and_values, number_of_reels):
     # randomly selects slot icons from slots_and_values and returns them as a list
@@ -78,7 +164,9 @@ def prize_money(win_checker, number_of_reels):
     multiplier = 1 * number_of_reels
     if win_checker:
         # calculate multiplier based on number of reels
-        if multiplier > 3: # for 4 or more reels
+        if number_of_reels == 1:
+            return 0 # no prize for 1 reel
+        elif multiplier > 3: # for 4 or more reels
             multiplier = 2 * number_of_reels # for 4 or more reels, multiplier is 2x
         elif multiplier < 3: # for 2 reels
             multiplier = 1 * number_of_reels # for 2 reels, multiplier is 1x
@@ -101,10 +189,10 @@ def stats(wallet, spins, money_earned, money_spent):
 +------------------------+
 | Player Stats           |
 +------------------------+
-| Wallet: {wallet}$          |
+| Wallet: {wallet}$             |
 | Spins: {spins}            |
 | Money Earned: {money_earned}$   |
-| Money Spent: {money_spent}$    |
+| Money Spent: {money_spent}$     |
 +------------------------+""")
     
       
@@ -157,17 +245,18 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             try:
                 # get user input for number of reels
                 user_choice = int(input("Set number of reels: "))
+                number_of_reels = user_choice
             except ValueError:
                 error_handling(number_of_reels)
 
-            # validate user input for number of reels
-            if user_choice <= 2: # minimum number of reels is 2
-                print(f"Minimum number of reels is 2")
-            elif user_choice > len(slots_and_values): # maximum number of reels is the number of slot icons
-                print(f"Maximum number of reels is {len(slots_and_values)}")
-            else: # if input is valid, set number of reels
-                number_of_reels = user_choice
-                print(f"Number of reels set to {number_of_reels}")
+            # # validate user input for number of reels
+            # if user_choice <= 2: # minimum number of reels is 2
+            #     print(f"Minimum number of reels is 2")
+            # elif user_choice > len(slots_and_values): # maximum number of reels is the number of slot icons
+            #     print(f"Maximum number of reels is {len(slots_and_values)}")
+            # else: # if input is valid, set number of reels
+            #     number_of_reels = user_choice
+            #     print(f"Number of reels set to {number_of_reels}")
 
         elif user_choice == "stats": # user typed 'stats' to view their stats
             stats(wallet, spins, money_earned, money_spent)
