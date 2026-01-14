@@ -183,7 +183,24 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             if wallet < bet:
                 print("Sorry! You don't have enough money.")
                 stats(wallet, spins, money_earned, money_spent)
-                break
+                print("")
+                user_choice = input("Play again? (Yes/No): ").lower()
+                if user_choice == "yes":
+                    wallet = initial_wallet
+                    spins = 0
+                    money_earned = 0
+                    money_spent = 0
+                    number_of_reels = initial_number_of_reels
+                    print("Game restarted!")
+
+                elif user_choice == "no":
+                    print("Thanks for playing!")
+                    break # exit the game loop
+                
+                else:
+                    error_handling(user_choice)
+                    continue
+                    
 
             # increment spin counter
             spins += 1
