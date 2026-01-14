@@ -8,7 +8,7 @@ slots_and_values = {
     "🍋": 300,
     "🍓": 400,
     "🦄": 500,
-    "⭐": 750,
+    "🐬": 750,
     "💎": 1000
 }
 initial_number_of_reels = 3
@@ -17,7 +17,7 @@ bet_amount = 50
 
 
 def title_screen():
-# prints the title screen
+    # prints the title screen
     print("""
 +---------------------------+    
 | Slot Machine Game         |
@@ -28,8 +28,7 @@ def title_screen():
 
 
 def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
-
-    print(f"Wallet: {wallet}$""") # always prints wallet amount
+    print(f"Wallet: {wallet}$""")  # always prints wallet amount
 
     # prints the menu screen with slots based on number of reels
     if len(chosen_slots) == 1:
@@ -93,7 +92,35 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
     # print prize money if won
     if prize > 0:
         print(f"Congratulations! you won {prize}$")
-    
+
+
+def unlockable_slots(wallet, slots_and_values):
+    slot_icon_1 = "🎯"
+    slot_icon_2 = "🧩"
+    slot_icon_3 = "🎉"
+
+
+    print(f"""
+You can buy
+{slot_icon_1}
+{slot_icon_2}
+{slot_icon_3}
+    """)
+
+    user_choice = input("> ")
+    if user_choice == "1":
+        wallet -= 500
+        slots_and_values[slot_icon_1] = 5000
+    elif user_choice == "2":
+        wallet -= 500
+        slots_and_values[slot_icon_2] = 5000
+    elif user_choice == "3":
+        wallet -= 500
+        slots_and_values[slot_icon_3] = 5000
+    else:
+        print("Error.")
+
+    return slots_and_values
 
 def slot_spinner(slots_and_values, number_of_reels):
     # randomly selects slot icons from slots_and_values and returns them as a list
@@ -127,11 +154,11 @@ def prize_money(win_checker, number_of_reels):
     if win_checker:
         # calculate multiplier based on number of reels
         if number_of_reels == 1:
-            return 0 # no prize for 1 reel
-        elif multiplier > 3: # for 4 or more reels
-            multiplier = 2 * number_of_reels # for 4 or more reels, multiplier is 2x
-        elif multiplier < 3: # for 2 reels
-            multiplier = 1 * number_of_reels # for 2 reels, multiplier is 1x
+            return 0  # no prize for 1 reel
+        elif multiplier > 3:  # for 4 or more reels
+            multiplier = 2 * number_of_reels  # for 4 or more reels, multiplier is 2x
+        elif multiplier < 3:  # for 2 reels
+            multiplier = 1 * number_of_reels  # for 2 reels, multiplier is 1x
 
         if multiplier > 3 or multiplier < 2:
             # only print multiplier for 2 or 4+ reels
@@ -156,8 +183,8 @@ def stats(wallet, spins, money_earned, money_spent):
 → Money Earned: {money_earned}$
 → Money Spent: {money_spent}$
 """)
-    
-      
+
+
 def error_handling(user_choice):
     # prints an error message for unknown inputs
     print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
@@ -172,13 +199,12 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
     money_earned = 0
     money_spent = 0
 
-    title_screen() # prints title screen (once)
+    title_screen()  # prints title screen (once)
     while True:
         # get user input
         user_choice = input("> ").lower()
-    
-    
-        if user_choice == "": # user pressed ENTER to spin
+
+        if user_choice == "":  # user pressed ENTER to spin
             # check if user has enough money to place bet
             if wallet < bet:
                 print("Sorry! You don't have enough money.")
@@ -195,12 +221,11 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
                 elif user_choice == "no":
                     print("Thanks for playing!")
-                    break # exit the game loop
-                
+                    break  # exit the game loop
+
                 else:
                     error_handling(user_choice)
                     continue
-                    
 
             # increment spin counter
             spins += 1
@@ -220,7 +245,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             menu_screen(slots, prize, wallet, number_of_reels, spins)
 
 
-        elif user_choice == "reels": # user typed 'reels' to set number of reels
+        elif user_choice == "reels":  # user typed 'reels' to set number of reels
             try:
                 # get user input for number of reels
                 user_choice = int(input("Set number of reels: "))
@@ -232,10 +257,10 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             except ValueError:
                 error_handling(number_of_reels)
 
-        elif user_choice == "stats": # user typed 'stats' to view their stats
+        elif user_choice == "stats":  # user typed 'stats' to view their stats
             stats(wallet, spins, money_earned, money_spent)
 
-        elif user_choice == "restart": # user typed 'restart' to restart the game
+        elif user_choice == "restart":  # user typed 'restart' to restart the game
             wallet = initial_wallet
             spins = 0
             money_earned = 0
@@ -243,7 +268,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             number_of_reels = initial_number_of_reels
             print("Game restarted!")
 
-        elif user_choice == "add": # user typed 'add' to add money to their wallet
+        elif user_choice == "add":  # user typed 'add' to add money to their wallet
             try:
                 # get user input for amount to add
                 user_choice = int(input("Amount to add: "))
@@ -258,15 +283,19 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                 wallet += user_choice
                 print(f"Added {user_choice}$ to wallet. New wallet balance: {wallet}$")
 
-        elif user_choice == "wallet": # user typed 'wallet' to view their wallet balance
+        elif user_choice == "wallet":  # user typed 'wallet' to view their wallet balance
             print(f"Wallet balance: {wallet}$")
 
-        elif user_choice == "quit": # user typed 'quit' to exit the game
+
+        elif user_choice == "buy":
+            unlockable_slots(wallet, slots_and_values)
+
+        elif user_choice == "quit":  # user typed 'quit' to exit the game
             print("Thanks for playing!")
             stats(wallet, spins, money_earned, money_spent)
-            break # exit the game loop
+            break  # exit the game loop
 
-        elif user_choice == "help": # user typed 'help' to get a list of commands
+        elif user_choice == "help":  # user typed 'help' to get a list of commands
             print("""Commands: 
 reels - Set number of reels
 stats - View player stats
@@ -277,7 +306,7 @@ quit - Quit the game
 help - View this help message
 """)
 
-        else: # unknown input
+        else:  # unknown input
             error_handling(user_choice)
 
 
