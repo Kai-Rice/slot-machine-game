@@ -7,9 +7,6 @@ slots_and_values = {
     "🥝": 250,
     "🍋": 300,
     "🍓": 400,
-    "🦄": 500,
-    "🐬": 750,
-    "💎": 1000
 }
 initial_number_of_reels = 3
 initial_wallet = 1000
@@ -98,8 +95,11 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
 def unlockable_slots(wallet, slots_and_values):
 
     # slot packs and values
-    pack_one = {"🎯": 500, "🧩": 750, "🎉":900}
-
+    pack_one = {"🐮": 150, "🐷": 150, "🐔":150}
+    pack_two = {"🕹️": 250, "🎮": 250, "🖥️": 250}
+    pack_three = {"🚗": 500, "🏍️": 500, "🛵": 500}
+    pack_four = {"♠️": 1200, "♣️": 1200, "♥️": 1200, "♦️": 1200}
+    pack_five = {"👑": 5000, "💎": 5000, "🪙": 5000}
 
     print(f"""
 = = = = STORE = = = =
@@ -107,18 +107,51 @@ Wallet: {wallet}$
 Enter the number of the slot pack you want to purchase!
 
 1) Slot pack: {pack_one}
-2) Slot pack: (coming soon)
-3) Slot pack: (coming soon)
+2) Slot pack: {pack_two}
+3) Slot pack: {pack_three}
+4) Slot pack: {pack_four}
+5) Slot pack: {pack_five}
+
+Type 'exit' to leave the store.
 """)
 
+    while True:
+        user_choice = input("> ").lower()
 
-    user_choice = input("> ").lower()
+        # process user choice
+        if user_choice == "1":
+            wallet -= 300
+            slots_and_values = slots_and_values | pack_one
+            print("Pack purchased!")
 
-    if user_choice == "1":
-        wallet -= 500
-        slots_and_values = slots_and_values | pack_one # adds chosen slot pack to default slots and values.
-    else:
-        print("Error.")
+        elif user_choice == "2":
+            wallet -= 500
+            slots_and_values = slots_and_values | pack_two
+            print("Pack purchased!")
+
+        elif user_choice == "3":
+            wallet -= 1000
+            slots_and_values = slots_and_values | pack_three
+            print("Pack purchased!")
+
+        elif user_choice == "4":    
+            wallet -= 2200
+            slots_and_values = slots_and_values | pack_four
+            print("Pack purchased!")
+
+        elif user_choice == "5":
+            wallet -= 10000
+            slots_and_values = slots_and_values | pack_five
+            print("Pack purchased!")
+
+        elif user_choice == "exit":
+            print("Exiting store.")    
+            print("")
+            title_screen()
+            break
+
+        else:
+            print("Error.")
 
     return wallet, slots_and_values
 
@@ -202,6 +235,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
     title_screen()
     while game_running:
+
         # get user input
         user_choice = input("> ").lower()
 
