@@ -96,7 +96,7 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
 
 
 def unlockable_slots(wallet, slots_and_values):
-    
+
     # slot packs and values
     pack_one = {"🎯": 500, "🧩": 750, "🎉":900}
 
@@ -113,14 +113,14 @@ Enter the number of the slot pack you want to purchase!
 
 
     user_choice = input("> ").lower()
-    
+
     if user_choice == "1":
         wallet -= 500
         slots_and_values = slots_and_values | pack_one # adds chosen slot pack to default slots and values.
     else:
         print("Error.")
 
-    return slots_and_values
+    return wallet, slots_and_values
 
 def slot_spinner(slots_and_values, number_of_reels):
     # randomly selects slot icons from slots_and_values and returns them as a list
@@ -294,7 +294,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
 
         elif user_choice == "store":
-            slots_and_values = unlockable_slots(wallet, slots_and_values)
+            wallet, slots_and_values = unlockable_slots(wallet, slots_and_values)
 
         elif user_choice == "quit":  # user typed 'quit' to exit the game
             print("Thanks for playing!")
