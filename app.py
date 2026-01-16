@@ -1,5 +1,4 @@
 import random
-from multiprocessing.resource_sharer import stop
 
 # Configuration Variables
 slots_and_values = {
@@ -97,28 +96,27 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
 
 
 def unlockable_slots(wallet, slots_and_values):
-    slot_icon_1 = "🎯"
-    slot_icon_2 = "🧩"
-    slot_icon_3 = "🎉"
+    
+    # slot packs and values
+    pack_one = {"🎯": 500, "🧩": 750, "🎉":900}
 
 
     print(f"""
-You can buy
-{slot_icon_1}
-{slot_icon_2}
-{slot_icon_3}
-    """)
+= = = = STORE = = = =
+Wallet: {wallet}$
+Enter the number of the slot pack you want to purchase!
 
-    user_choice = input("> ")
+1) Slot pack: {pack_one}
+2) Slot pack: (coming soon)
+3) Slot pack: (coming soon)
+""")
+
+
+    user_choice = input("> ").lower()
+    
     if user_choice == "1":
         wallet -= 500
-        slots_and_values[slot_icon_1] = 5000
-    elif user_choice == "2":
-        wallet -= 500
-        slots_and_values[slot_icon_2] = 5000
-    elif user_choice == "3":
-        wallet -= 500
-        slots_and_values[slot_icon_3] = 5000
+        slots_and_values = slots_and_values | pack_one # adds chosen slot pack to default slots and values.
     else:
         print("Error.")
 
@@ -295,8 +293,8 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             print(f"Wallet balance: {wallet}$")
 
 
-        elif user_choice == "buy":
-            unlockable_slots(wallet, slots_and_values)
+        elif user_choice == "store":
+            slots_and_values = unlockable_slots(wallet, slots_and_values)
 
         elif user_choice == "quit":  # user typed 'quit' to exit the game
             print("Thanks for playing!")
