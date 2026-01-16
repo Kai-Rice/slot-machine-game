@@ -1,4 +1,5 @@
 import random
+from multiprocessing.resource_sharer import stop
 
 # Configuration Variables
 slots_and_values = {
@@ -27,71 +28,72 @@ def title_screen():
 +---------------------------+""")
 
 
-def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins):
-    print(f"Wallet: {wallet}$""")  # always prints wallet amount
+def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_running):
+    if game_running:
+        print(f"Wallet: {wallet}$""")  # always prints wallet amount
 
-    # prints the menu screen with slots based on number of reels
-    if len(chosen_slots) == 1:
-        print(f"""╔══ SLOT ══╗
+        # prints the menu screen with slots based on number of reels
+        if len(chosen_slots) == 1:
+            print(f"""╔══ SLOT ══╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚══════════╝
-""")
+    """)
 
-    elif len(chosen_slots) == 2:
-        print(f"""╔════ SLOTS ════╗
+        elif len(chosen_slots) == 2:
+            print(f"""╔════ SLOTS ════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚═══════════════╝
-""")
+    """)
 
-    elif len(chosen_slots) == 3:
-        print(f"""╔══════ SLOTS ═══════╗
+        elif len(chosen_slots) == 3:
+            print(f"""╔══════ SLOTS ═══════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚════════════════════╝
-""")
+    """)
 
-    elif len(chosen_slots) == 4:
-        print(f"""╔═════════ SLOTS ═════════╗
+        elif len(chosen_slots) == 4:
+            print(f"""╔═════════ SLOTS ═════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚═════════════════════════╝
-""")
+    """)
 
-    elif len(chosen_slots) == 5:
-        print(f"""╔═══════════ SLOTS ════════════╗
+        elif len(chosen_slots) == 5:
+            print(f"""╔═══════════ SLOTS ════════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚══════════════════════════════╝
-""")
+    """)
 
-    elif len(chosen_slots) == 6:
-        print(f"""╔═════════════ SLOTS ═══════════════╗
+        elif len(chosen_slots) == 6:
+            print(f"""╔═════════════ SLOTS ═══════════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚═══════════════════════════════════╝
+    
+    """)
 
-""")
-
-    elif len(chosen_slots) == 7:
-        print(f"""╔═══════════════ SLOTS ══════════════════╗
+        elif len(chosen_slots) == 7:
+            print(f"""╔═══════════════ SLOTS ══════════════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚════════════════════════════════════════╝
-""")
+    """)
 
-    elif len(chosen_slots) == 8:
-        print(f"""╔══════════════════ SLOTS ════════════════════╗
+        elif len(chosen_slots) == 8:
+            print(f"""╔══════════════════ SLOTS ════════════════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚═════════════════════════════════════════════╝
-""")
+    """)
 
-    elif len(chosen_slots) >= 9:
-        print(f"""╔════════════════════ SLOTS ═══════════════════════╗
+        elif len(chosen_slots) >= 9:
+            print(f"""╔════════════════════ SLOTS ═══════════════════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚══════════════════════════════════════════════════╝
-""")
+    """)
 
-    else:
-        print("Error: Invalid number of reels.")
+        else:
+            print("Error: Invalid number of reels.")
 
-    # print prize money if won
-    if prize > 0:
-        print(f"Congratulations! you won {prize}$")
+        # print prize money if won
+        if prize > 0:
+            print(f"Congratulations! you won {prize}$")
 
 
 def unlockable_slots(wallet, slots_and_values):
@@ -198,9 +200,10 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
     spins = 0
     money_earned = 0
     money_spent = 0
+    game_running = True
 
-    title_screen()  # prints title screen (once)
-    while True:
+    title_screen()
+    while game_running:
         # get user input
         user_choice = input("> ").lower()
 
@@ -210,22 +213,27 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                 print("Sorry! You don't have enough money.")
                 stats(wallet, spins, money_earned, money_spent)
                 print("")
-                user_choice = input("Play again? (Yes/No): ").lower()
-                if user_choice == "yes":
-                    wallet = initial_wallet
-                    spins = 0
-                    money_earned = 0
-                    money_spent = 0
-                    number_of_reels = initial_number_of_reels
-                    print("Game restarted!")
+                while True:
+                    user_choice = input("Play again? (Yes/No): ").lower()
+                    if user_choice == "yes":
+                        wallet = initial_wallet
+                        spins = 0
+                        money_earned = 0
+                        money_spent = 0
+                        number_of_reels = initial_number_of_reels
+                        print("Game restarted!")
+                        print("")
+                        title_screen()
+                        print("")
+                        break # exits (this) loop
 
-                elif user_choice == "no":
-                    print("Thanks for playing!")
-                    break  # exit the game loop
+                    elif user_choice == "no":
+                        print("Thanks for playing!")
+                        game_running = False
+                        break  # exit the game loop
 
-                else:
-                    error_handling(user_choice)
-                    continue
+                    else:
+                        error_handling(user_choice)
 
             # increment spin counter
             spins += 1
@@ -242,7 +250,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             money_earned += prize
             wallet += prize
             # display menu screen
-            menu_screen(slots, prize, wallet, number_of_reels, spins)
+            menu_screen(slots, prize, wallet, number_of_reels, spins, game_running)
 
 
         elif user_choice == "reels":  # user typed 'reels' to set number of reels
