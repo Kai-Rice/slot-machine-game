@@ -63,7 +63,7 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
             print(f"""╔═════════════ SLOTS ═══════════════╗
 ⟩⟩ | {' | '.join(chosen_slots)} | ⟨⟨
 ╚═══════════════════════════════════╝
-    
+
     """)
 
         elif len(chosen_slots) == 7:
@@ -93,9 +93,8 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
 
 
 def unlockable_slots(wallet, slots_and_values):
-
     # slot packs and values
-    pack_one = {"🐮": 150, "🐷": 150, "🐔":150}
+    pack_one = {"🐮": 150, "🐷": 150, "🐔": 150}
     pack_two = {"🕹️": 250, "🎮": 250, "🖥️": 250}
     pack_three = {"🚗": 500, "🏍️": 500, "🛵": 500}
     pack_four = {"♠️": 1200, "♣️": 1200, "♥️": 1200, "♦️": 1200}
@@ -106,11 +105,11 @@ def unlockable_slots(wallet, slots_and_values):
 Wallet: {wallet}$
 Enter the number of the slot pack you want to purchase!
 
-1) Slot pack: {pack_one}
-2) Slot pack: {pack_two}
-3) Slot pack: {pack_three}
-4) Slot pack: {pack_four}
-5) Slot pack: {pack_five}
+1) 300$   Slot pack: {pack_one}
+2) 500$   Slot pack: {pack_two}
+3) 1000$  Slot pack: {pack_three}
+4) 2200$  Slot pack: {pack_four}
+5) 10000$ Slot pack: {pack_five}
 
 Type 'exit' to leave the store.
 """)
@@ -120,32 +119,53 @@ Type 'exit' to leave the store.
 
         # process user choice
         if user_choice == "1":
+            if wallet < 300:
+                print("Sorry! You don't have enough money.")
+                continue
             wallet -= 300
             slots_and_values = slots_and_values | pack_one
-            print("Pack purchased!")
+            print(f"Purchased: {pack_one} ")
+            print(f"Wallet: {wallet}$")
 
         elif user_choice == "2":
+            if wallet < 500:
+                print("Sorry! You don't have enough money.")
+                continue
             wallet -= 500
             slots_and_values = slots_and_values | pack_two
-            print("Pack purchased!")
+            print(f"Purchased: {pack_two} ")
+            print(f"Wallet: {wallet}$")
 
         elif user_choice == "3":
+            if wallet < 1000:
+                print("Sorry! You don't have enough money.")
+                continue
             wallet -= 1000
             slots_and_values = slots_and_values | pack_three
-            print("Pack purchased!")
+            print(f"Purchased: {pack_three} ")
+            print(f"Wallet: {wallet}$")
 
-        elif user_choice == "4":    
+        elif user_choice == "4":
+            if wallet < 2200:
+                print("Sorry! You don't have enough money.")
+                continue
             wallet -= 2200
             slots_and_values = slots_and_values | pack_four
-            print("Pack purchased!")
+            print(f"Purchased: {pack_four} ")
+            print(f"Wallet: {wallet}$")
 
         elif user_choice == "5":
+            if wallet < 10000:
+                print("Sorry! You don't have enough money.")
+                continue
+
             wallet -= 10000
             slots_and_values = slots_and_values | pack_five
-            print("Pack purchased!")
+            print(f"Purchased: {pack_five} ")
+            print(f"Wallet: {wallet}$")
 
         elif user_choice == "exit":
-            print("Exiting store.")    
+            print("Exiting store.")
             print("")
             title_screen()
             break
@@ -154,6 +174,7 @@ Type 'exit' to leave the store.
             print("Error.")
 
     return wallet, slots_and_values
+
 
 def slot_spinner(slots_and_values, number_of_reels):
     # randomly selects slot icons from slots_and_values and returns them as a list
@@ -181,7 +202,7 @@ def slot_calculator(chosen_slots):
     return False
 
 
-def prize_money(win_checker, number_of_reels):
+def prize_money(win_checker, number_of_reels, slots_and_values):
     # checks if there was a win and returns the prize money
     multiplier = 1 * number_of_reels
     if win_checker:
@@ -257,7 +278,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                         print("")
                         title_screen()
                         print("")
-                        break # exits (this) loop
+                        break  # exits (this) loop
 
                     elif user_choice == "no":
                         print("Thanks for playing!")
@@ -277,7 +298,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             # check for wins
             win_checker = slot_calculator(slots)
             # calculate prize money
-            prize = prize_money(win_checker, number_of_reels)
+            prize = prize_money(win_checker, number_of_reels, slots_and_values)
             # add prize money to wallet
             money_earned += prize
             wallet += prize
@@ -336,7 +357,8 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             break  # exit the game loop
 
         elif user_choice == "help":  # user typed 'help' to get a list of commands
-            print("""Commands: 
+            print("""Commands:
+store - Open the store to buy slot packs 
 reels - Set number of reels
 stats - View player stats
 restart - Restart the game
