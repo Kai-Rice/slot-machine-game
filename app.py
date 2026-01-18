@@ -26,7 +26,7 @@ def title_screen():
 
 def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_running):
     if game_running:
-        print(f"Wallet: {wallet}$""")  # always prints wallet amount
+        print(f"Wallet: {wallet}$")  # always prints wallet amount
 
         # prints the menu screen with slots based on number of reels
         if len(chosen_slots) == 1:
@@ -181,6 +181,9 @@ Type 'exit' to leave the store.
             print("")
             title_screen()
             break
+
+        elif user_choice == "":
+            print("To leave the store, type 'exit'")
 
         else:
             print("Error.")
