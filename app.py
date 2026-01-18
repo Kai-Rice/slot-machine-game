@@ -345,19 +345,24 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             print("Game restarted!")
 
         elif user_choice == "add":  # user typed 'add' to add money to their wallet
-            try:
-                # get user input for amount to add
-                user_choice = int(input("Amount to add: "))
-            except ValueError:
-                error_handling(user_choice)
-                continue
+
+            # get user input for amount to add
+            user_choice = input("Amount to add: ")
 
             # validate user input for amount to add
-            if user_choice <= 0:
-                print("Amount must be greater than 0")
-            else:
-                wallet += user_choice
-                print(f"Added {user_choice}$ to wallet. New wallet balance: {wallet}$")
+            if user_choice == "max": # adds maximum amount of 10,000$
+                wallet += 10000
+                print("Added 10000$")
+            else: # if user doesn't type 'max'
+                wallet_added_amount = int(user_choice) # converts users input into an int
+                if wallet_added_amount <= 0: # checks if its less than 0
+                    print("Amount must be greater than 0")
+                elif wallet_added_amount > 10000: # or if its greater than 10,000
+                    print("Amount cannot exceed 10,000$")
+                    print(f"Added {wallet_added_amount}$")
+                else:
+                    wallet += wallet_added_amount
+                    print(f"Added {wallet_added_amount}$ to wallet. New wallet balance: {wallet}$")
 
         elif user_choice == "wallet":  # user typed 'wallet' to view their wallet balance
             print(f"Wallet balance: {wallet}$")
@@ -366,18 +371,23 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
         elif user_choice == "store":
             wallet, slots_and_values = unlockable_slots(wallet, slots_and_values)
 
+        elif user_choice == "slots":
+            print(f"Available slots: {slots_and_values}")
+
         elif user_choice == "quit":  # user typed 'quit' to exit the game
             print("Thanks for playing!")
             stats(wallet, spins, money_earned, money_spent)
             break  # exit the game loop
 
-        elif user_choice == "help":  # user typed 'help' to get a list of commands
-            print("""Commands:
+        elif user_choice == "help" or "commands":  # user typed 'help' to get a list of commands
+            print("""
+Commands:
 store - Open the store to buy slot packs 
+slots - lists available slots
 reels - Set number of reels
 stats - View player stats
 restart - Restart the game
-add - Add money to wallet
+add - Add money to wallet (type 'max' for maximum amount)
 wallet - View wallet balance
 quit - Quit the game         
 help - View this help message
