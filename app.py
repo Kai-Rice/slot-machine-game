@@ -94,22 +94,34 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
 
 def unlockable_slots(wallet, slots_and_values):
     # slot packs and values
-    pack_one = {"🐮": 150, "🐷": 150, "🐔": 150}
-    pack_two = {"🕹️": 250, "🎮": 250, "🖥️": 250}
-    pack_three = {"🚗": 500, "🏍️": 500, "🛵": 500}
-    pack_four = {"♠️": 1200, "♣️": 1200, "♥️": 1200, "♦️": 1200}
-    pack_five = {"👑": 5000, "💎": 5000, "🪙": 5000}
+    pack_one_icons = {"🐮": 150, "🐷": 150, "🐔": 150}
+    pack_one_price = 300
+
+    pack_two_icons = {"🕹️": 250, "🎮": 250, "🖥️": 250}
+    pack_two_price = 500
+
+
+    pack_three_icons = {"🚗": 500, "🏍️": 500, "🛵": 500}
+    pack_three_price = 1000
+
+
+    pack_four_icons = {"♠️": 1200, "♣️": 1200, "♥️": 1200, "♦️": 1200}
+    pack_four_price = 2200
+
+
+    pack_five_icons = {"👑": 5000, "💎": 5000, "🪙": 5000}
+    pack_five_price = 10000
 
     print(f"""
 = = = = STORE = = = =
 Wallet: {wallet}$
 Enter the number of the slot pack you want to purchase!
 
-1) 300$   Slot pack: {pack_one}
-2) 500$   Slot pack: {pack_two}
-3) 1000$  Slot pack: {pack_three}
-4) 2200$  Slot pack: {pack_four}
-5) 10000$ Slot pack: {pack_five}
+1) {pack_one_price}$   Slot pack: {pack_one_icons}
+2) {pack_two_price}$   Slot pack: {pack_two_icons}
+3) {pack_three_price}$  Slot pack: {pack_three_icons}
+4) {pack_four_price}$  Slot pack: {pack_four_icons}
+5) {pack_five_price}$ Slot pack: {pack_five_icons}
 
 Type 'exit' to leave the store.
 """)
@@ -119,49 +131,49 @@ Type 'exit' to leave the store.
 
         # process user choice
         if user_choice == "1":
-            if wallet < 300:
+            if wallet < pack_one_price:
                 print("Sorry! You don't have enough money.")
                 continue
-            wallet -= 300
-            slots_and_values = slots_and_values | pack_one
-            print(f"Purchased: {pack_one} ")
+            wallet -= pack_one_price
+            slots_and_values = slots_and_values | pack_one_icons
+            print(f"Purchased (-{pack_one_price}$): {pack_one_icons} ")
             print(f"Wallet: {wallet}$")
 
         elif user_choice == "2":
-            if wallet < 500:
+            if wallet < pack_two_price:
                 print("Sorry! You don't have enough money.")
                 continue
-            wallet -= 500
-            slots_and_values = slots_and_values | pack_two
-            print(f"Purchased: {pack_two} ")
+            wallet -= pack_two_price
+            slots_and_values = slots_and_values | pack_two_icons
+            print(f"Purchased (-{pack_two_price}$): {pack_two_icons} ")
             print(f"Wallet: {wallet}$")
 
         elif user_choice == "3":
-            if wallet < 1000:
+            if wallet < pack_three_price:
                 print("Sorry! You don't have enough money.")
                 continue
-            wallet -= 1000
-            slots_and_values = slots_and_values | pack_three
-            print(f"Purchased: {pack_three} ")
+            wallet -= pack_three_price
+            slots_and_values = slots_and_values | pack_three_icons
+            print(f"Purchased (-{pack_three_price}$): {pack_three_icons} ")
             print(f"Wallet: {wallet}$")
 
         elif user_choice == "4":
-            if wallet < 2200:
+            if wallet < pack_four_price:
                 print("Sorry! You don't have enough money.")
                 continue
-            wallet -= 2200
-            slots_and_values = slots_and_values | pack_four
-            print(f"Purchased: {pack_four} ")
+            wallet -= pack_four_price
+            slots_and_values = slots_and_values | pack_four_icons
+            print(f"Purchased (-{pack_four_price}$): {pack_four_icons} ")
             print(f"Wallet: {wallet}$")
 
         elif user_choice == "5":
-            if wallet < 10000:
+            if wallet < pack_five_price:
                 print("Sorry! You don't have enough money.")
                 continue
 
-            wallet -= 10000
-            slots_and_values = slots_and_values | pack_five
-            print(f"Purchased: {pack_five} ")
+            wallet -= pack_five_price
+            slots_and_values = slots_and_values | pack_five_icons
+            print(f"Purchased (-{pack_five_price}): {pack_five_icons} ")
             print(f"Wallet: {wallet}$")
 
         elif user_choice == "exit":
