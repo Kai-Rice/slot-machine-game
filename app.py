@@ -356,16 +356,20 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                 wallet += 10000
                 print("Added 10000$")
             else: # if user doesn't type 'max'
-                wallet_added_amount = int(user_choice) # converts users input into an int
-                if wallet_added_amount <= 0: # checks if its less than 0
-                    print("Amount must be greater than 0")
-                elif wallet_added_amount > 10000: # or if its greater than 10,000
-                    print("Amount cannot exceed 10,000$")
-                    print(f"Added {wallet_added_amount}$")
-                else:
-                    wallet += wallet_added_amount
-                    print(f"Added {wallet_added_amount}$ to wallet. New wallet balance: {wallet}$")
+                try:
+                    wallet_added_amount = int(user_choice) # converts users input into an int
 
+                    if wallet_added_amount <= 0: # checks if its less than 0
+                        print("Amount must be greater than 0")
+                    elif wallet_added_amount > 10000: # or if its greater than 10,000
+                        print("Amount cannot exceed 10,000$")
+                        print(f"Added {wallet_added_amount}$")
+                    else:
+                        wallet += wallet_added_amount
+                        print(f"Added {wallet_added_amount}$ to wallet. New wallet balance: {wallet}$")
+                except ValueError:
+                    print("Value must be a number between 1-10000.")
+                
         elif user_choice == "wallet":  # user typed 'wallet' to view their wallet balance
             print(f"Wallet balance: {wallet}$")
 
