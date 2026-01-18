@@ -87,6 +87,8 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
         else:
             print("Error: Invalid number of reels.")
 
+        print("Press 'ENTER' to Spin!") # always printed
+
         # print prize money if won
         if prize > 0:
             print(f"Congratulations! you won {prize}$")
