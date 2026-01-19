@@ -279,6 +279,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
     spins = 0
     money_earned = 0
     money_spent = 0
+    profit = 0
     game_running = True
 
     title_screen()
@@ -308,6 +309,10 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                         break  # exits (this) loop
 
                     elif user_choice == "no":
+                        if wallet > initial_wallet:
+                            print(f"You made a profit of {wallet - initial_wallet}$!")
+                        elif wallet < initial_wallet:
+                            print(f"You lost {initial_wallet - wallet}$")
                         print("Thanks for playing!")
                         game_running = False
                         break  # exit the game loop
@@ -390,7 +395,18 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
         elif user_choice == "slots":
             print(f"Available slots: {slots_and_values}")
 
-        elif user_choice == "quit":  # user typed 'quit' to exit the game
+        elif user_choice == "profit":
+            profit = money_earned - money_spent
+            if profit >= 0:
+                print(f"Total Profit: +{profit}$")
+            else:
+                print(f"Total Profit: {profit}$")
+
+        elif user_choice == "quit" or "exit":  # user typed 'quit' to exit the game
+            if wallet > initial_wallet:
+                print(f"You made a profit of {wallet - initial_wallet}$!")
+            elif wallet < initial_wallet:
+                print(f"You lost {initial_wallet - wallet}$")
             print("Thanks for playing!")
             stats(wallet, spins, money_earned, money_spent)
             break  # exit the game loop
