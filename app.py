@@ -26,7 +26,7 @@ def title_screen():
 
 def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_running):
     if game_running:
-        print(f"Wallet: {wallet}$")  # always prints wallet amount
+        print(f"Wallet: {wallet}$ Spins: {spins}")  # always prints wallet amount
 
         # prints the menu screen with slots based on number of reels
         if len(chosen_slots) == 1:
@@ -342,8 +342,8 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             try:
                 # get user input for number of reels
                 user_choice = int(input("Set number of reels: "))
-                if user_choice < 1 or user_choice > len(slots_and_values):
-                    print(f"Invalid number of reels. Please choose between 1 and {len(slots_and_values)}.")
+                if user_choice < 1 or user_choice > 9:
+                    print(f"Invalid number of reels. Please choose between 1 and 9.")
                 else:
                     number_of_reels = user_choice
                     print(f"Number of reels set to {number_of_reels}")
@@ -423,6 +423,7 @@ add - Add money to wallet (type 'max' for maximum amount)
 wallet - View wallet balance
 quit - Quit the game         
 help - View this help message
+profit - view total profit made or loss
 """)
 
         else:  # unknown input
