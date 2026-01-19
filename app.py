@@ -94,25 +94,30 @@ def menu_screen(chosen_slots, prize, wallet, number_of_reels, spins, game_runnin
             print(f"Congratulations! you won {prize}$")
 
 
-def unlockable_slots(wallet, slots_and_values):
+def unlockable_slots(wallet, slots_and_values, money_spent):
     # slot packs and values
     pack_one_icons = {"🐮": 150, "🐷": 150, "🐔": 150}
     pack_one_price = 300
+    pack_one_unlocked = True
 
     pack_two_icons = {"🕹️": 250, "🎮": 250, "🖥️": 250}
     pack_two_price = 500
+    pack_two_unlocked = True
 
 
     pack_three_icons = {"🚗": 500, "🏍️": 500, "🛵": 500}
     pack_three_price = 1000
+    pack_three_unlocked = True
 
 
     pack_four_icons = {"♠️": 1200, "♣️": 1200, "♥️": 1200, "♦️": 1200}
     pack_four_price = 2200
+    pack_four_unlocked = True
 
 
     pack_five_icons = {"👑": 5000, "💎": 5000, "🪙": 5000}
     pack_five_price = 10000
+    pack_five_unlocked = True
 
     print(f"""
 = = = = STORE = = = =
@@ -137,6 +142,7 @@ Type 'exit' to leave the store.
                 print("Sorry! You don't have enough money.")
                 continue
             wallet -= pack_one_price
+            money_spent += pack_one_price
             slots_and_values = slots_and_values | pack_one_icons
             print(f"Purchased (-{pack_one_price}$): {pack_one_icons} ")
             print(f"Wallet: {wallet}$")
@@ -146,6 +152,7 @@ Type 'exit' to leave the store.
                 print("Sorry! You don't have enough money.")
                 continue
             wallet -= pack_two_price
+            money_spent += pack_two_price
             slots_and_values = slots_and_values | pack_two_icons
             print(f"Purchased (-{pack_two_price}$): {pack_two_icons} ")
             print(f"Wallet: {wallet}$")
@@ -155,6 +162,7 @@ Type 'exit' to leave the store.
                 print("Sorry! You don't have enough money.")
                 continue
             wallet -= pack_three_price
+            money_spent += pack_three_price
             slots_and_values = slots_and_values | pack_three_icons
             print(f"Purchased (-{pack_three_price}$): {pack_three_icons} ")
             print(f"Wallet: {wallet}$")
@@ -164,6 +172,7 @@ Type 'exit' to leave the store.
                 print("Sorry! You don't have enough money.")
                 continue
             wallet -= pack_four_price
+            money_spent += pack_four_price
             slots_and_values = slots_and_values | pack_four_icons
             print(f"Purchased (-{pack_four_price}$): {pack_four_icons} ")
             print(f"Wallet: {wallet}$")
@@ -174,6 +183,7 @@ Type 'exit' to leave the store.
                 continue
 
             wallet -= pack_five_price
+            money_spent += pack_five_price
             slots_and_values = slots_and_values | pack_five_icons
             print(f"Purchased (-{pack_five_price}): {pack_five_icons} ")
             print(f"Wallet: {wallet}$")
@@ -190,7 +200,7 @@ Type 'exit' to leave the store.
         else:
             print("Error.")
 
-    return wallet, slots_and_values
+    return wallet, slots_and_values, money_spent
 
 
 def slot_spinner(slots_and_values, number_of_reels):
@@ -369,13 +379,13 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                         print(f"Added {wallet_added_amount}$ to wallet. New wallet balance: {wallet}$")
                 except ValueError:
                     print("Value must be a number between 1-10000.")
-                
+
         elif user_choice == "wallet":  # user typed 'wallet' to view their wallet balance
             print(f"Wallet balance: {wallet}$")
 
 
         elif user_choice == "store":
-            wallet, slots_and_values = unlockable_slots(wallet, slots_and_values)
+            wallet, slots_and_values, money_spent = unlockable_slots(wallet, slots_and_values, money_spent)
 
         elif user_choice == "slots":
             print(f"Available slots: {slots_and_values}")
