@@ -290,12 +290,12 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
         if user_choice == "":  # user pressed ENTER to spin
             # check if user has enough money to place bet
-            if wallet <= 0 or wallet < bet:
+            if wallet <= 0 or wallet - bet <= 0: # checks if wallet is less than or equal to 0 or if wallet minus bet is less than or equal to 0
                 print("Sorry! You don't have enough money.")
                 stats(wallet, spins, money_earned, money_spent)
                 print("")
                 while True:
-                    user_choice = input("Play again? (Yes/No): ").lower()
+                    user_choice = input('Play again? (Yes/No) or type "continue" to retain stats: ').lower()
                     if user_choice == "yes":
                         wallet = initial_wallet
                         spins = 0
@@ -308,7 +308,19 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                         print("")
                         break  # exits (this) loop
 
+                    elif user_choice == "continue":
+                        wallet += 1000 # retains stats but adds 1000$ to wallet
+                        print("")
+                        title_screen()
+                        print("")
+                        print("Continuing with current stats. Added 1000$ to wallet.")
+                        print("")
+                        break  # exits (this) loop
+
                     elif user_choice == "no":
+                        # prints stats
+                        stats(wallet, spins, money_earned, money_spent)
+                        # checks if player made a profit or loss
                         if wallet > initial_wallet:
                             print(f"You made a profit of {wallet - initial_wallet}$!")
                         elif wallet < initial_wallet:
