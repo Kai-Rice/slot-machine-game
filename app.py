@@ -290,7 +290,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
 
         if user_choice == "":  # user pressed ENTER to spin
             # check if user has enough money to place bet
-            if wallet < bet:
+            if wallet <= 0 or wallet < bet:
                 print("Sorry! You don't have enough money.")
                 stats(wallet, spins, money_earned, money_spent)
                 print("")
