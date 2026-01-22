@@ -268,7 +268,7 @@ def stats(wallet, spins, money_earned, money_spent):
 
 def error_handling(user_choice):
     # prints an error message for unknown inputs
-    print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
+    return print(f"Input '{user_choice}' is unknown. Type 'help' for a list of commands.")
 
 
 def game_logic(slots_and_values, initial_wallet, bet_amount):
@@ -414,13 +414,17 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             else:
                 print(f"Total Profit: {profit}$")
 
+        elif user_choice == "options":
+            print("No options available yet.")
+
         elif user_choice == "quit" or "exit":  # user typed 'quit' to exit the game
+            print("")
+            stats(wallet, spins, money_earned, money_spent)
             if wallet > initial_wallet:
                 print(f"You made a profit of {wallet - initial_wallet}$!")
             elif wallet < initial_wallet:
                 print(f"You lost {initial_wallet - wallet}$")
             print("Thanks for playing!")
-            stats(wallet, spins, money_earned, money_spent)
             break  # exit the game loop
 
         elif user_choice == "help" or "commands":  # user typed 'help' to get a list of commands
@@ -440,6 +444,7 @@ profit - view total profit made or loss
 
         else:  # unknown input
             error_handling(user_choice)
+            continue
 
 
 game_logic(slots_and_values, initial_wallet, bet_amount)
