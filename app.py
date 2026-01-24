@@ -349,6 +349,17 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             # display menu screen
             menu_screen(slots, prize, wallet, number_of_reels, spins, game_running)
 
+        elif user_choice == "bet":  # user typed 'bet' to set bet amount
+            try:
+                # get user input for bet amount
+                user_choice = int(input("Set bet amount: "))
+                if user_choice < 1 or user_choice > 500:
+                    print(f"Invalid bet amount. Please choose between 1 and 500.")
+                else:
+                    bet = user_choice
+                    print(f"Bet amount set to {bet}$")
+            except ValueError:
+                error_handling(bet)
 
         elif user_choice == "reels":  # user typed 'reels' to set number of reels
             try:
