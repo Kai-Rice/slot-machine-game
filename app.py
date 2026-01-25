@@ -411,6 +411,19 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
         elif user_choice == "wallet":  # user typed 'wallet' to view their wallet balance
             print(f"Wallet balance: {wallet}$")
 
+        elif user_choice == "subtract":  # user typed 'subtract' to subtract money from their wallet
+            try:
+                # get user input for amount to subtract
+                user_choice = int(input("Amount to subtract: "))
+                if user_choice <= 0:
+                    print("Amount must be greater than 0")
+                elif user_choice > wallet:
+                    print("Amount cannot exceed wallet balance.")
+                else:
+                    wallet -= user_choice
+                    print(f"Subtracted {user_choice}$ from wallet. New wallet balance: {wallet}$")
+            except ValueError:
+                print("Value must be a number.")
 
         elif user_choice == "store":
             wallet, slots_and_values, money_spent = unlockable_slots(wallet, slots_and_values, money_spent)
