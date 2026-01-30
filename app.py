@@ -401,7 +401,6 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
                         print("Amount must be greater than 0")
                     elif wallet_added_amount > 10000: # or if its greater than 10,000
                         print("Amount cannot exceed 10,000$")
-                        print(f"Added {wallet_added_amount}$")
                     else:
                         wallet += wallet_added_amount
                         print(f"Added {wallet_added_amount}$ to wallet. New wallet balance: {wallet}$")
@@ -441,7 +440,7 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
         elif user_choice == "options":
             print("No options available yet.")
 
-        elif user_choice == "quit" or "exit":  # user typed 'quit' to exit the game
+        elif user_choice == "quit":  # user typed 'quit' to exit the game
             print("")
             stats(wallet, spins, money_earned, money_spent)
             if wallet > initial_wallet:
@@ -451,19 +450,22 @@ def game_logic(slots_and_values, initial_wallet, bet_amount):
             print("Thanks for playing!")
             break  # exit the game loop
 
-        elif user_choice == "help" or "commands":  # user typed 'help' to get a list of commands
+        elif user_choice == "help":  # user typed 'help' to get a list of commands
             print("""
 Commands:
-store - Open the store to buy slot packs 
-slots - lists available slots
-reels - Set number of reels
-stats - View player stats
-restart - Restart the game
-add - Add money to wallet (type 'max' for maximum amount)
-wallet - View wallet balance
-quit - Quit the game         
-help - View this help message
-profit - view total profit made or loss
+store     - Open the store to buy slot packs
+slots     - List available slot icons
+reels     - Set number of reels (1‑9)
+stats     - View player statistics
+restart   - Restart the game with initial settings
+add       - Add money to wallet (type 'max' for 10,000$)
+wallet    - View current wallet balance
+subtract  - Subtract money from wallet
+profit    - Show total profit or loss
+options   - Display available options (future feature)
+quit      - Exit the game
+bet       - Change the bet amount (1‑500$)
+help      - Show this help message
 """)
 
         else:  # unknown input
